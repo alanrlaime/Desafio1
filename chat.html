@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Storyboard · Huayna Kallami · Prompts Gemini</title>
+    <!-- Google Fonts & Font Awesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0b141f;
+            color: #e2e8f0;
+            padding: 1.5rem 1.5rem 3rem;
+        }
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+        /* encabezado */
+        .header-block {
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid #1e3347;
+            padding-bottom: 1.5rem;
+        }
+        .header-block h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            background: linear-gradient(145deg, #b3e4ff, #6cb8f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block;
+        }
+        .sub-header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 0.4rem;
+            color: #94a3b8;
+        }
+        .sub-header i {
+            color: #6cb8f0;
+            width: 1.6rem;
+        }
+        .badge-gemini {
+            background: #1a2e44;
+            border-radius: 40px;
+            padding: 0.2rem 1.2rem;
+            font-weight: 600;
+            font-size: 0.75rem;
+            color: #b3e4ff;
+            border: 1px solid #2a4a66;
+            display: inline-block;
+        }
+        /* grid de prompts */
+        .prompt-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.8rem;
+            margin-top: 1.8rem;
+        }
+        .prompt-card {
+            background: rgba(16, 30, 48, 0.8);
+            backdrop-filter: blur(4px);
+            border-radius: 28px;
+            padding: 1.6rem 1.6rem 1.8rem;
+            border: 1px solid #1e3347;
+            transition: all 0.2s ease;
+            box-shadow: 0 8px 20px -10px rgba(0,0,0,0.8);
+            display: flex;
+            flex-direction: column;
+        }
+        .prompt-card:hover {
+            border-color: #4f8fc0;
+            transform: translateY(-4px);
+            background: rgba(20, 38, 60, 0.85);
+        }
+        .prompt-card .block-tag {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        .block-tag .time {
+            background: #0b141f;
+            padding: 0.15rem 0.9rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #94d9ff;
+            border: 1px solid #1e3347;
+        }
+        .block-tag .role {
+            font-size: 0.7rem;
+            color: #94a3b8;
+        }
+        .prompt-card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #b3e4ff;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .prompt-card h3 i {
+            color: #6cb8f0;
+        }
+        .prompt-text {
+            background: #0b141f;
+            border-radius: 16px;
+            padding: 0.9rem 1rem;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: #cbd5e1;
+            border-left: 3px solid #4f8fc0;
+            flex: 1;
+            margin: 0.3rem 0 0.6rem;
+        }
+        .prompt-text strong {
+            color: #b3e4ff;
+        }
+        .visual-hint {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 0.4rem;
+            border-top: 1px solid #16283b;
+            padding-top: 0.6rem;
+        }
+        .visual-hint span {
+            background: #0b141f;
+            padding: 0.1rem 0.8rem;
+            border-radius: 40px;
+            font-size: 0.65rem;
+            color: #94a3b8;
+            border: 1px solid #1e3347;
+        }
+        .visual-hint i {
+            color: #6cb8f0;
+            margin-right: 4px;
+        }
+        .icon-preview {
+            font-size: 2rem;
+            text-align: center;
+            color: #4f8fc0;
+            opacity: 0.6;
+            margin-bottom: 0.2rem;
+        }
+        /* sección extra */
+        .footer-note {
+            margin-top: 3.5rem;
+            text-align: center;
+            color: #64748b;
+            font-size: 0.9rem;
+            border-top: 1px solid #16283b;
+            padding-top: 2rem;
+        }
+        .footer-note i {
+            color: #6cb8f0;
+        }
+        @media (max-width: 640px) {
+            body { padding: 0.8rem; }
+            .header-block h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- ENCABEZADO -->
+    <div class="header-block">
+        <h1>🎬 Storyboard · Gemini</h1>
+        <div class="sub-header">
+            <span><i class="fas fa-film"></i> Director de cine · 9 bloques</span>
+            <span><i class="fas fa-mountain"></i> Cerro Huayna Kallami</span>
+            <span><i class="fas fa-robot"></i> IA generativa · prompts cinematográficos</span>
+            <span class="badge-gemini"><i class="fab fa-google"></i> Gemini · 2026</span>
+        </div>
+        <p style="margin-top: 0.8rem; color: #94a3b8; max-width: 700px;">
+            <i class="fas fa-quote-left" style="color: #6cb8f0; opacity: 0.5;"></i> 
+            Cada bloque describe una escena hiperrealista, con indicaciones de cámara, movimiento, clima y detalles visuales.
+        </p>
+    </div>
+
+    <!-- GRILLA DE PROMPTS (9 bloques) -->
+    <div class="prompt-grid">
+
+        <!-- Bloque 1 -->
+        <div class="prompt-card">
+            <div class="block-tag">
+                <span class="time"><i class="far fa-clock"></i> 0:00 – 0:20</span>
+                <span class="role"><i class="fas fa-clapperboard"></i> Frame pausado</span>
+            </div>
+            <h3><i class="fas fa-film"></i> Bloque 1 · Tierra árida</h3>
+            <div class="icon-preview"><i class="fas fa-dust"></i></div>
+            <div class="prompt-text">
+                <strong>Prompt:</strong> “Imagina que eres un director de cine y que le das vida a este frame pausado de película hiperrealista. En la escena, la tierra árida y agrietada del altiplano muestra micro-movimientos de polvo levantado por un viento helado. El yatiri, vestido con un poncho de lana real con texturas ultra detalladas y arrugas visibles, gira lentamente la cabeza hacia el horizonte árido. La iluminación es cenicienta y natural, con partículas de tierra flotando en el aire en súper cámara lenta como en una novela gráfica fotorrealista.”
+            </div>
+            <div class="visual-hint">
+                <span><i class="fas fa-wind"></i> Viento helado</span>
+                <span><i class="fas fa-user"></i> Yatiri · poncho</span>
+                <span><i class="fas fa-camera-slow"></i> Súper cámara lenta</span>
+            </div>
+        </div>
+
+        <!-- Bloque 2 -->
+        <div class="prompt-card">
+            <div class="block-tag">
+                <span class="time"><i class="far fa-clock"></i> 0:20 – 0:40</span>
+                <span class="role"><i class="fas fa-clapperboard"></i> Panel realista</span>
+            </div>
+            <h3><i class="fas fa-person-walking"></i> Bloque 2 · Ascenso a la montaña</h3>
+            <div class="icon-preview"><i class="fas fa-mountain"></i></div>
+            <div class="prompt-text">
+                <strong>Prompt:</strong> “Imagina que eres un director de cine y que animas este panel realista de cómic cinematográfico. Muestra al yatiri caminando a paso firme y realista sobre un terreno rocoso en ascenso hacia la imponente montaña Huayna Kallami. Al fondo, las nubes pesadas y dramáticas se desplazan a gran velocidad sobre los picos nevados. Un tenue velo de niebla matutina se mueve entre sus pies mientras cruza un antiguo altar de piedra donde brasas incandescentes sueltan un humo denso que se disipa con el viento.”
+            </div>
+            <div class="visual-hint">
+                <span><i class="fas fa-cloud"></i> Nubes dramáticas</span>
+                <span><i class="fas fa-fire"></i> Brasas</span>
+                <span><i class="fas fa-smog"></i> Niebla</span>
+            </div>
+        </div>
+
+        <!-- Bloque 3 -->
+        <div class="prompt-card">
+            <div class="block-tag">
+                <span class="time"><i class="far fa-clock"></i> 0:40 – 1:00</span>
+                <span class="role"><i class="fas fa-clapperboard"></i> Toma épica</span>
+            </div>
+            <h3><i class="fas fa-water"></i> Bloque 3 · Laguna andina</h3>
+            <div class="icon-preview"><i class="fas fa-water"></i></div>
+            <div class="prompt-text">
+                <strong>Prompt:</strong> “Imagina que eres un director de cine y que le das movimiento a esta toma fotorrealista de escala épica. En la orilla de una pequeña laguna andina de aguas oscuras y cristalinas, el yatiri se arrodilla en cámara lenta. Anima la superficie del agua para que refleje las nubes y cree sutiles ondas reales. Un rayo de luz solar atraviesa la niebla densa e ilumina el agua, haciendo que destellos de luz dorada se reflejen de manera fotorrealista en el rostro del sabio.”
+            </div>
+            <div class="visual-hint">
+                <span><i class="fas fa-sun"></i> Rayo de luz</span>
+                <span><i class="fas fa-hand-sparkles"></i> Reflejos</span>
+                <span><i class="fas fa-cloud-sun"></i> Niebla</span>
+            </div>
+        </div>
+
+        <!-- Bloque 4 -->
+        <div class="prompt-card">
+            <div class="block-tag">
+                <span class="time"><i class="far fa-clock"></i> 1:00 – 1:20</span>
+                <span class="role"><i class="fas fa-clapperboard"></i> Acción suspendida</span>
+            </div>
+            <h3><i class="fas fa-jar"></i> Bloque 4 · Vasija y clima</h3>
+            <div class="icon-preview"><i class="fas fa-cloud-sun-rain"></i></div>
+            <div class="prompt-text">
+                <strong>Prompt:</strong> “Imagina que eres un director de cine y que animas un frame de película de acción con ritmo suspendido. Alrededor de la vasija de cerámica rústica, el clima cambia violentamente de forma realista: a un lado, copos de nieve y escarcha se congelan rápidamente sobre las rocas; al otro lado, ráfagas de granizo real rebotan con fuerza contra la piedra; en el centro, una lluvia fina y cristalina cae de manera armónica, con gotas de agua perfectamente enfocadas atravesando la lente de la cámara en macro shot.”
+            </div>
+            <div class="visual-hint">
+                <span><i class="fas fa-snowflake"></i> Nieve</span>
+                <span><i class="fas fa-cloud-rain"></i> Granizo</span>
+                <span><i class="fas fa-droplet"></i> Lluvia fina</span>
+            </div>
+        </div>
+
+        <!-- Bloque 5 -->
+        <div class="prompt-card">
+            <div class="block-tag">
+                <span class="time"><i class="far fa-clock"></i> 1:20 – 1:40</span>
+                <span class="role"><i class="fas fa-clapperboard"></i> Cámara lenta extrema</span>
+            </div>
+            <h3><i class="fas fa-hand-holding-water"></i> Bloque 5 · Tormenta y vasija</h3>
+            <div class="icon-preview"><i class="fas fa-wind"></i></div>
+            <div class="prompt-text">
+                <strong>Prompt:</strong> “Imagina que eres un director de cine y que creas un movimiento dramático en cámara lenta extrema (high-speed camera). Una tormenta de viento, niebla oscura y polvo rodea la silueta del sabio en el pico rocoso. Con absoluta templanza, las manos agrietadas y reales del yatiri se mueven despacio a través de la ventisca para sumergir una vasija de arcilla tradicional directamente en la corriente limpia de agua de lluvia, generando una onda fluida y realista de agua hiper-detallada.”
+            </div>
+            <div class="visual-hint">
+                <span><i class="fas fa-tornado"></i> Tormenta</span>
+                <span><i class="fas fa-hand"></i> Manos agrietadas</span>
+                <span><i class="fas fa-water"></i> Onda fluida</span>
+            </div>
+        </div>
+
+        <!-- Bloque 6 -->
+        <div class="prompt-card">
+            <div class="block-tag">
+                <span class="time"><i class="far fa-clock"></i> 1:40 – 2:00</span>
+                <span class="role"><i class="fas fa-clapperboard"></i> Ultra macro</span>
+            </div>
+            <h3><i class="fas fa-droplet"></i> Bloque 6 · Gota y onda</h3>
+            <div class="icon-preview"><i class="fas fa-circle-dot"></i></div>
+            <div class="prompt-text">
+                <strong>Prompt:</strong> “Imagina que eres un director de cine y que animas un plano detalle hiperrealista pausado en el tiempo. La cámara enfoca en ultra Macro la vasija de barro en manos del sabio. Haz que una gota de agua cristalina caiga en cámara súper lenta e impacte la superficie del agua contenida. Anima la onda expansiva del agua con física realista de fluidos, mientras los destellos del sol poniente se reflejan en cada gota suspendida en el aire con acabado cinematográfico de 8K.”
+            </div>
+            <div class="visual-hint">
+                <span><i class="fas fa-circle"></i> Gota</span>
+                <span><i class="fas fa-water"></i> Onda expansiva</span>
+                <span><i class="fas fa-sun"></i> Destellos</span>
+            </div>
+        </div>
+
+        <!-- Bloque 7 -->
+        <div class="prompt-card">
+            <div class="block-tag">
+                <span class="time"><i class="far fa-clock"></i> 2:00 – 2:20</span>
+                <span class="role"><i class="fas fa-clapperboard"></i> Descenso del héroe</span>
+            </div>
+            <h3><i class="fas fa-seedling"></i> Bloque 7 · Descenso y brotes</h3>
+            <div class="icon-preview"><i class="fas fa-leaf"></i></div>
+            <div class="prompt-text">
+                <strong>Prompt:</strong> “Imagina que eres un director de cine y que le das vida a este panel de cómic fotorrealista sobre el descenso del héroe. El yatiri camina hacia abajo por la ladera de la montaña mientras vierte el agua sagrada. Anima las gotas cayendo de la vasija y rebotando de forma fluida sobre la tierra seca. En el punto exacto donde el agua toca el suelo árido, la tierra absorbe la humedad al instante y pequeñas brotes verdes e hierba real comienzan a emerger del suelo en un time-lapse hiperrealista.”
+            </div>
+            <div class="visual-hint">
+                <span><i class="fas fa-person-walking"></i> Descenso</span>
+                <span><i class="fas fa-water"></i> Agua sagrada</span>
+                <span><i class="fas fa-seedling"></i> Brotes</span>
+            </div>
+        </div>
+
+        <!-- Bloque 8 -->
+        <div class="prompt-card">
+            <div class="block-tag">
+                <span class="time"><i class="far fa-clock"></i> 2:20 – 2:40</span>
+                <span class="role"><i class="fas fa-clapperboard"></i> Transformación</span>
+            </div>
+            <h3><i class="fas fa-cloud-rain"></i> Bloque 8 · Lluvia y verdor</h3>
+            <div class="icon-preview"><i class="fas fa-cloud-showers-heavy"></i></div>
+            <div class="prompt-text">
+                <strong>Prompt:</strong> “Imagina que eres un director de cine y que animas esta toma cinematográfica de transformación ambiental. Una lluvia suave, densa y realista empieza a caer sobre todo el altiplano. Mediante un efecto time-lapse fotorrealista, muestra los campos secos transformándose en surcos de cultivo verdes y exuberantes. La humedad crea vaho sobre el ambiente y el agua corriendo por pequeños riachuelos entre la tierra con físicas de iluminación global perfectas.”
+            </div>
+            <div class="visual-hint">
+                <span><i class="fas fa-cloud-rain"></i> Lluvia densa</span>
+                <span><i class="fas fa-crop"></i> Cultivos</span>
+                <span><i class="fas fa-smog"></i> Vaho</span>
+            </div>
+        </div>
+
+        <!-- Bloque 9 -->
+        <div class="prompt-card">
+            <div class="block-tag">
+                <span class="time"><i class="far fa-clock"></i> 2:40 – 3:00</span>
+                <span class="role"><i class="fas fa-clapperboard"></i> Drone shot</span>
+            </div>
+            <h3><i class="fas fa-drone"></i> Bloque 9 · Aéreo final</h3>
+            <div class="icon-preview"><i class="fas fa-mountain-sun"></i></div>
+            <div class="prompt-text">
+                <strong>Prompt:</strong> “Imagina que eres un director de cine y que realizas una toma aérea con dron (drone shot) de escala Hollywoodense. La cámara realiza un suave ascenso (zoom out) alejándose del valle verde resplandeciente bajo la lluvia. A medida que la cámara sube entre las nubes, la geografía realista de las montañas, los ríos y los campos revela la silueta imponente y natural del Cerro Huayna Kallami recortada contra el cielo al atardecer, disolviéndose suavemente a negro cinematográfico.”
+            </div>
+            <div class="visual-hint">
+                <span><i class="fas fa-drone"></i> Drone</span>
+                <span><i class="fas fa-mountain"></i> Cerro</span>
+                <span><i class="fas fa-sun"></i> Atardecer</span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- PIE DE PÁGINA / CRÉDITOS -->
+    <div class="footer-note">
+        <i class="fas fa-film"></i> 9 bloques · prompts generados con Gemini · adaptación del relato “Granizo, Helada o Lluvia” 
+        <br><span style="font-size: 0.8rem; color: #475569;"><i class="far fa-copyright"></i> 2026 · Proyecto Ciencia de Datos</span>
+    </div>
+
+</div>
+
+<!-- Pequeño efecto de ondas sutiles (opcional) -->
+<script>
+    (function() {
+        const canvas = document.createElement('canvas');
+        canvas.style.position = 'fixed';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvas.style.pointerEvents = 'none';
+        canvas.style.zIndex = '0';
+        canvas.style.opacity = '0.08';
+        document.body.prepend(canvas);
+
+        const ctx = canvas.getContext('2d');
+        let w = window.innerWidth, h = window.innerHeight;
+        canvas.width = w; canvas.height = h;
+
+        const dots = [];
+        for (let i = 0; i < 30; i++) {
+            dots.push({
+                x: Math.random() * w,
+                y: Math.random() * h,
+                r: Math.random() * 20 + 5,
+                dx: (Math.random() - 0.5) * 0.3,
+                dy: (Math.random() - 0.5) * 0.3,
+                opacity: Math.random() * 0.3 + 0.1
+            });
+        }
+
+        function resize() {
+            w = window.innerWidth; h = window.innerHeight;
+            canvas.width = w; canvas.height = h;
+        }
+        window.addEventListener('resize', resize);
+
+        function animate() {
+            ctx.clearRect(0, 0, w, h);
+            ctx.strokeStyle = '#4f8fc0';
+            ctx.lineWidth = 0.8;
+            for (let d of dots) {
+                d.x += d.dx;
+                d.y += d.dy;
+                if (d.x < 0 || d.x > w) d.dx *= -1;
+                if (d.y < 0 || d.y > h) d.dy *= -1;
+                ctx.beginPath();
+                ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+                ctx.strokeStyle = `rgba(79, 143, 192, ${d.opacity})`;
+                ctx.stroke();
+            }
+            requestAnimationFrame(animate);
+        }
+        animate();
+    })();
+</script>
+
+</body>
+</html>

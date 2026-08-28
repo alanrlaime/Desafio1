@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Granizo, Helada o Lluvia · Cerro Huayna Kallami</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0b131f;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" opacity="0.03"><path d="M70 10 L80 30 L100 20 L90 40 L110 50 L90 60 L100 80 L80 70 L70 90 L60 70 L40 80 L50 60 L30 50 L50 40 L40 20 L60 30 Z" fill="%2394d9ff"/></svg>');
+            background-size: 120px 120px;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .app {
+            position: relative;
+            z-index: 10;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem 3rem;
+        }
+        .hero-video {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            height: 0;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.9);
+            margin-bottom: 2.5rem;
+            background: #0f1a2b;
+            border: 1px solid #1e3347;
+        }
+        .hero-video iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        h1 {
+            font-size: 3.2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            background: linear-gradient(145deg, #b3e4ff, #6cb8f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+        .subhead {
+            color: #94a3b8;
+            font-size: 1.1rem;
+            border-left: 4px solid #4f8fc0;
+            padding-left: 1rem;
+            margin-top: 0.3rem;
+        }
+        .meta-badge {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem 2rem;
+            margin: 0.8rem 0 1.8rem;
+            color: #94a3b8;
+        }
+        .meta-badge i { color: #6cb8f0; width: 1.6rem; }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.8rem;
+            margin: 2.2rem 0;
+        }
+        .card {
+            background: rgba(18, 30, 46, 0.75);
+            backdrop-filter: blur(6px);
+            border-radius: 28px;
+            padding: 1.8rem 1.8rem 2rem;
+            border: 1px solid #1e3347;
+            transition: 0.2s ease;
+            box-shadow: 0 10px 25px -10px rgba(0,0,0,0.7);
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: #4f8fc0;
+            background: rgba(22, 38, 58, 0.8);
+        }
+        .card h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #b3e4ff;
+        }
+        .card h3 i { color: #6cb8f0; width: 1.8rem; }
+        .card p, .card li { line-height: 1.6; color: #cbd5e1; }
+        .pill {
+            background: #0f1a2b;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #94d9ff;
+            border: 1px solid #1e3347;
+            display: inline-block;
+            margin: 0.2rem 0.2rem 0 0;
+        }
+        .pill i { margin-right: 4px; }
+        .badge {
+            background: #1a2e44;
+            border-radius: 40px;
+            padding: 0.15rem 0.9rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #b3e4ff;
+            display: inline-block;
+        }
+        .table-wrap {
+            overflow-x: auto;
+            border-radius: 16px;
+            border: 1px solid #1e3347;
+            margin: 0.8rem 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+        th {
+            background: #0b131f;
+            color: #94d9ff;
+            padding: 0.6rem 0.5rem;
+            text-align: left;
+            font-weight: 600;
+        }
+        td {
+            padding: 0.5rem 0.5rem;
+            border-bottom: 1px solid #16283b;
+            color: #cbd5e1;
+        }
+        tr:last-child td { border-bottom: none; }
+        .hero-steps {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem 0.6rem;
+            margin-top: 0.5rem;
+        }
+        .hero-step {
+            background: #0b131f;
+            padding: 0.15rem 0.9rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #94d9ff;
+            border: 1px solid #1e3347;
+        }
+        .prompt-block {
+            background: #0b131f;
+            border-radius: 14px;
+            padding: 0.8rem 1rem;
+            margin-top: 0.6rem;
+            border-left: 3px solid #6cb8f0;
+            font-size: 0.85rem;
+        }
+        .prompt-block strong { color: #b3e4ff; }
+        .error-fix {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 0.4rem 0 0.2rem;
+        }
+        .error-fix span {
+            background: #2a1e2a;
+            padding: 0.1rem 0.9rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            color: #f9a8d4;
+        }
+        .error-fix .fixed {
+            background: #1a2e2b;
+            color: #6ee7b7;
+        }
+        .storyboard-carousel {
+            display: flex;
+            gap: 1.2rem;
+            overflow-x: auto;
+            padding: 0.8rem 0.2rem 1.5rem;
+            scroll-behavior: smooth;
+            scrollbar-width: thin;
+            scrollbar-color: #4f8fc0 #16283b;
+        }
+        .storyboard-carousel::-webkit-scrollbar { height: 5px; }
+        .storyboard-carousel::-webkit-scrollbar-track { background: #16283b; border-radius: 12px; }
+        .storyboard-carousel::-webkit-scrollbar-thumb { background: #4f8fc0; border-radius: 12px; }
+        .story-item {
+            min-width: 140px;
+            background: #0f1a2b;
+            border-radius: 20px;
+            padding: 0.8rem 0.5rem;
+            text-align: center;
+            border: 1px solid #1e3347;
+            flex: 0 0 auto;
+        }
+        .story-item i { font-size: 2.2rem; color: #6cb8f0; margin-bottom: 0.2rem; }
+        .story-item p { font-size: 0.7rem; color: #94a3b8; }
+        /* Herramientas IA - cards especiales */
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.2rem;
+            margin: 0.8rem 0;
+        }
+        .tool-card {
+            background: #0b131f;
+            border-radius: 16px;
+            padding: 1rem 1.2rem;
+            border: 1px solid #1e3347;
+            text-align: center;
+        }
+        .tool-card i { font-size: 2rem; color: #6cb8f0; margin-bottom: 0.3rem; }
+        .tool-card h4 { color: #b3e4ff; font-size: 1rem; }
+        .tool-card p { font-size: 0.75rem; color: #94a3b8; margin-top: 0.2rem; }
+        .tool-card .rating { color: #fbbf24; font-size: 0.8rem; }
+        .problem-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .problem-list li {
+            padding: 0.4rem 0;
+            border-bottom: 1px solid #16283b;
+            font-size: 0.85rem;
+        }
+        .problem-list li:last-child { border-bottom: none; }
+        .problem-list i { color: #6cb8f0; width: 1.6rem; }
+        footer {
+            margin-top: 3rem;
+            text-align: center;
+            color: #64748b;
+            font-size: 0.9rem;
+            border-top: 1px solid #16283b;
+            padding-top: 2rem;
+        }
+        @media (max-width: 640px) {
+            .app { padding: 0.8rem; }
+            h1 { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="app">
+
+    <!-- HEADER: VIDEO YOUTUBE -->
+    <div class="hero-video">
+        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=0&rel=0" allowfullscreen></iframe>
+    </div>
+
+    <!-- TITULO Y METADATOS -->
+    <h1>EL AGUA DEL <br>HUAYNA KALLAMI</h1>
+    <div class="meta-badge">
+        <span><i class="fas fa-user-circle"></i> Laime Laura Alan Rodrigo</span>
+        <span><i class="fas fa-book-open"></i> Taller de Proyecto</span>
+        <span><i class="fas fa-mountain"></i> Desafio 1</span>
+        <span><i class="fas fa-graduation-cap"></i> Mención IA y Ciencia de Datos</span>
+    </div>
+    <div class="subhead">
+        <i class="fas fa-quote-left" style="color: #6cb8f0; opacity: 0.6;"></i> 
+        El agua es memoria: chhijchi uma (granizo), jallu uma (lluvia), juyphi uma (helada). Los yatiris leen el cielo.
+    </div>
+
+    <!-- FILA 1: Relato + Adaptación -->
+    <div class="grid-2">
+        <div class="card">
+            <h3><i class="fas fa-scroll"></i> Relato original</h3>
+            <p><span class="badge">fuente oral</span> Narra Emilio Kapkique (46 años). El cerro Huayna Kallami es el más importante, posee un laguito. En tiempo de siembra, los yatiris van a traer agua cristalina. Existen tres clases: <strong>chhijchi uma</strong> (granizo), <strong>jallu uma</strong> (lluvia) y <strong>juyphi uma</strong> (helada). Deben traer jallu uma para que llueva; si traen helada o granizo, el clima se torna adverso.</p>
+            <p style="margin-top: 0.4rem; font-size: 0.8rem; color: #94a3b8;"><i class="fas fa-map-pin"></i> Archivo Oral, Carrera de Literatura, diciembre 2010: p. 526</p>
+        </div>
+        <div class="card">
+            <h3><i class="fas fa-arrow-right-arrow-left"></i> Adaptación · datos + IA</h3>
+            <p>El relato se interpreta como un <strong>sistema de clasificación climática</strong> basado en conocimiento ancestral. Las tres aguas se modelan como <strong>variables latentes</strong> que afectan la productividad agrícola. La IA (NLP + clustering) extrae patrones de las narrativas orales y los vincula con datos meteorológicos.</p>
+            <div style="margin-top: 0.6rem;">
+                <span class="pill"><i class="fas fa-cloud-rain"></i> Clasificación</span>
+                <span class="pill"><i class="fas fa-robot"></i> NLP</span>
+                <span class="pill"><i class="fas fa-chart-line"></i> Correlación</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- CAMINO DEL HÉROE -->
+    <div class="card" style="margin-bottom: 1.8rem;">
+        <h3><i class="fas fa-route"></i> Camino del Héroe · Yatiri como protagonista</h3>
+        <div class="hero-steps">
+            <span class="hero-step">1. Mundo ordinario</span>
+            <span class="hero-step">2. Llamada (sequía)</span>
+            <span class="hero-step">3. Rechazo</span>
+            <span class="hero-step">4. Mentor (cerro)</span>
+            <span class="hero-step">5. Cruce</span>
+            <span class="hero-step">6. Pruebas (3 aguas)</span>
+            <span class="hero-step">7. Acercamiento</span>
+            <span class="hero-step">8. Prueba suprema</span>
+            <span class="hero-step">9. Recompensa (lluvia)</span>
+            <span class="hero-step">10. Regreso</span>
+            <span class="hero-step">11. Resurrección</span>
+            <span class="hero-step">12. Retorno</span>
+        </div>
+        <p style="margin-top: 0.6rem; color: #94a3b8; font-size: 0.85rem;"><i class="fas fa-water"></i> El yatiri desciende con el agua de lluvia, restaurando el equilibrio.</p>
+    </div>
+
+    <!-- STORYBOARD (carrusel) -->
+    <div style="margin: 1.8rem 0;">
+        <h2 style="display: flex; align-items: center; gap: 12px; font-weight: 600; font-size: 1.6rem;"><i class="fas fa-film" style="color: #6cb8f0;"></i> Storyboard · visual narrativa</h2>
+        <div class="storyboard-carousel">
+            <div class="story-item"><i class="fas fa-mountain"></i><p>1. Cerro Huayna Kallami</p></div>
+            <div class="story-item"><i class="fas fa-hand-sparkles"></i><p>2. Yatiri en altar</p></div>
+            <div class="story-item"><i class="fas fa-water"></i><p>3. Laguna cristalina</p></div>
+            <div class="story-item"><i class="fas fa-cloud-sun-rain"></i><p>4. 3 aguas (granizo, lluvia, helada)</p></div>
+            <div class="story-item"><i class="fas fa-jar"></i><p>5. Vasija de arcilla</p></div>
+            <div class="story-item"><i class="fas fa-seedling"></i><p>6. Riego y brotes</p></div>
+            <div class="story-item"><i class="fas fa-cloud-rain"></i><p>7. Lluvia sobre el valle</p></div>
+            <div class="story-item"><i class="fas fa-earth-americas"></i><p>8. Transformación</p></div>
+        </div>
+    </div>
+
+    <!-- VIDEO FINAL + TABLA -->
+    <div style="display: flex; flex-wrap: wrap; gap: 2rem; margin: 2rem 0;">
+        <div style="flex: 1.2; min-width: 260px;">
+            <div class="card" style="height: 100%;">
+                <h3><i class="fas fa-play-circle"></i> Video final · adaptación</h3>
+                <div style="position: relative; padding-bottom: 56.25%; height: 0; border-radius: 16px; overflow: hidden; margin-top: 0.4rem;">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allowfullscreen></iframe>
+                </div>
+                <p style="margin-top: 0.4rem; font-size: 0.8rem; color: #94a3b8;">Visualización del ciclo del agua y el rol del yatiri.</p>
+            </div>
+        </div>
+        <div style="flex: 2; min-width: 280px;">
+            <div class="card" style="height: 100%;">
+                <h3><i class="fas fa-table"></i> Tabla extraída del relato</h3>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>Agua (Aymara)</th><th>Efecto climático</th><th>Interpretación datos</th></tr></thead>
+                        <tbody>
+                            <tr><td>Chhijchi uma</td><td>Granizo</td><td>Anomalía de temperatura</td></tr>
+                            <tr><td>Jallu uma</td><td>Lluvia benéfica</td><td>Patrón de humedad</td></tr>
+                            <tr><td>Juyphi uma</td><td>Helada</td><td>Descenso térmico</td></tr>
+                            <tr><td>Agua cristalina</td><td>Equilibrio</td><td>Variable latente</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p style="margin-top: 0.4rem; font-size: 0.8rem; color: #94a3b8;"><i class="fas fa-lightbulb"></i> Interpretación: las tres aguas representan estados climáticos que afectan la producción agrícola.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- USO DE IA: PROMPTS, ERRORES, CORRECCIONES -->
+    <div class="card" style="margin: 1.8rem 0;">
+        <h3><i class="fas fa-wand-magic-sparkles"></i> Uso de IA · prompts cinematográficos</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.2rem;">
+            <div>
+                <span class="badge"><i class="fas fa-video"></i> Bloque 1</span>
+                <div class="prompt-block">
+                    <strong>Prompt:</strong> “Director de cine, frame hiperrealista: tierra árida, yatiri con poncho de lana, viento helado, polvo en cámara lenta.”
+                </div>
+                <div class="error-fix">
+                    <span>error: textura poco definida</span>
+                    <span class="fixed">corrección: añadir “arrugas visibles y partículas flotantes”</span>
+                </div>
+            </div>
+            <div>
+                <span class="badge"><i class="fas fa-mountain"></i> Bloque 3</span>
+                <div class="prompt-block">
+                    <strong>Prompt:</strong> “Toma épica, laguna andina, yatiri arrodillado, reflejos y destellos de luz.”
+                </div>
+                <div class="error-fix">
+                    <span>error: agua estática</span>
+                    <span class="fixed">corrección: “ondas sutiles y reflejo de nubes”</span>
+                </div>
+            </div>
+            <div>
+                <span class="badge"><i class="fas fa-cloud-sun-rain"></i> Bloque 4</span>
+                <div class="prompt-block">
+                    <strong>Prompt:</strong> “Vasija de cerámica, clima cambiante: granizo, nieve y lluvia en un solo frame.”
+                </div>
+                <div class="error-fix">
+                    <span>error: mezcla confusa</span>
+                    <span class="fixed">corrección: “dividir en tres zonas con transición”</span>
+                </div>
+            </div>
+            <div>
+                <span class="badge"><i class="fas fa-seedling"></i> Bloque 7</span>
+                <div class="prompt-block">
+                    <strong>Prompt:</strong> “Descenso del héroe, vierte agua, brotes verdes emergen en time-lapse.”
+                </div>
+                <div class="error-fix">
+                    <span>error: brotes artificiales</span>
+                    <span class="fixed">corrección: “hierba realista con física de crecimiento”</span>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top: 1.2rem; display: flex; flex-wrap: wrap; gap: 0.5rem;">
+            <span class="pill"><i class="fas fa-check-circle" style="color: #6ee7b7;"></i> Evidencia: capturas de prompts</span>
+            <span class="pill"><i class="fas fa-robot"></i> Gemini · Director de cine</span>
+            <span class="pill"><i class="fas fa-arrow-rotate-right"></i> Iteraciones</span>
+        </div>
+    </div>
+
+    <!-- SECCIÓN HERRAMIENTAS IA · PROBLEMÁTICAS -->
+    <div class="card" style="border-left: 6px solid #fbbf24; margin-bottom: 1.8rem;">
+        <h3><i class="fas fa-tools"></i> Herramientas IA · problemáticas y decisiones</h3>
+        <div class="tool-grid">
+            <div class="tool-card">
+                <i class="fas fa-robot"></i>
+                <h4>Gemini</h4>
+                <p>Guion y prompts cinematográficos</p>
+                <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
+                <p style="font-size: 0.7rem; color: #94a3b8;">Mejor para narrativa y estructura</p>
+            </div>
+            <div class="tool-card">
+                <i class="fas fa-image"></i>
+                <h4>Crok</h4>
+                <p>Generación de imágenes · storyboard</p>
+                <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p style="font-size: 0.7rem; color: #94a3b8;">Excelente para ilustraciones</p>
+            </div>
+            <div class="tool-card">
+                <i class="fas fa-pen-fancy"></i>
+                <h4>Flow</h4>
+                <p>Edición y refinamiento de prompts</p>
+                <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <p style="font-size: 0.7rem; color: #94a3b8;">Fluidez y control semántico</p>
+            </div>
+            <div class="tool-card">
+                <i class="fas fa-code"></i>
+                <h4>Qwen</h4>
+                <p>Asistencia técnica y correcciones</p>
+                <div class="rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i></div>
+                <p style="font-size: 0.7rem; color: #94a3b8;">Útil para depuración</p>
+            </div>
+        </div>
+
+        <div style="margin-top: 1.2rem;">
+            <h4 style="color: #fbbf24; display: flex; align-items: center; gap: 8px;"><i class="fas fa-exclamation-triangle"></i> Problemáticas y decisiones</h4>
+            <ul class="problem-list">
+                <li><i class="fas fa-ban"></i> <strong>Limitaciones del plan gratuito:</strong> Gemini y Crok tienen restricciones de uso diario, lo que ralentizó el proceso.</li>
+                <li><i class="fas fa-check-circle" style="color: #6ee7b7;"></i> <strong>Flow resultó mejor</strong> para refinar prompts porque permite iterar más rápido y con mejor control semántico.</li>
+                <li><i class="fas fa-check-circle" style="color: #6ee7b7;"></i> <strong>Crok fue superior para imágenes</strong> porque genera ilustraciones más detalladas y coherentes con la narrativa andina.</li>
+                <li><i class="fas fa-robot"></i> <strong>Gemini</strong> fue la mejor opción para el guion y la estructura cinematográfica de los 9 bloques.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- SECCIÓN ESPECÍFICA DE LA MENCIÓN -->
+    <div class="card" style="border-left: 6px solid #6cb8f0; margin-bottom: 1.8rem;">
+        <h3><i class="fas fa-microchip"></i> Mención Ciencia de Datos · análisis</h3>
+        <p>Se aplicó <strong>NLP</strong> para extraer entidades (tipos de agua, cerro, yatiri) y <strong>clustering</strong> sobre narrativas similares. Se correlacionaron las menciones de “chhijchi uma”, “jallu uma” y “juyphi uma” con datos de <strong>precipitación y temperatura</strong> de la zona (SENAMHI). El modelo identifica patrones de conocimiento empírico que coinciden con fenómenos meteorológicos.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 0.6rem;">
+            <span class="pill"><i class="fab fa-python"></i> Pandas · sklearn</span>
+            <span class="pill"><i class="fas fa-chart-simple"></i> Visualización</span>
+            <span class="pill"><i class="fas fa-cloud"></i> Datos abiertos</span>
+        </div>
+    </div>
+
+    <!-- CONCLUSIONES Y CRÉDITOS -->
+    <div class="grid-2">
+        <div class="card">
+            <h3><i class="fas fa-flag-checkered"></i> Conclusiones</h3>
+            <ul style="list-style: none; padding-left: 0;">
+                <li style="margin-bottom: 0.4rem;">✓ La narrativa oral codifica conocimiento climático en tres categorías.</li>
+                <li style="margin-bottom: 0.4rem;">✓ La IA permite rescatar y correlacionar saberes ancestrales.</li>
+                <li>✓ El camino del héroe estructura la transmisión del saber.</li>
+            </ul>
+        </div>
+        <div class="card">
+            <h3><i class="fas fa-heart"></i> Créditos</h3>
+            <p><i class="fas fa-user-pen"></i> Estudiante: Sofía Valenzuela · Ciencia de Datos</p>
+            <p><i class="fas fa-people-group"></i> Relato: Emilio Kapkique (archivo oral)</p>
+            <p style="margin-top: 0.6rem; font-size: 0.8rem; color: #64748b;"><i class="fas fa-link"></i> Enlace público: <span style="color: #94d9ff;">https://huayna-kallami.netlify.app</span></p>
+        </div>
+    </div>
+
+    <footer>
+        <i class="fas fa-water" style="color: #6cb8f0;"></i> Chhijchi, Jallu, Juyphi · 2026 · <i class="fas fa-database" style="color: #6cb8f0;"></i> Ciencia de Datos
+    </footer>
+
+</div>
+
+<!-- Efecto de ondas sutiles -->
+<script>
+    (function() {
+        const canvas = document.createElement('canvas');
+        canvas.style.position = 'fixed';
+        canvas.style.top = '0';
+        canvas.style.left = '0';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvas.style.pointerEvents = 'none';
+        canvas.style.zIndex = '1';
+        canvas.style.opacity = '0.15';
+        document.body.prepend(canvas);
+
+        const ctx = canvas.getContext('2d');
+        let w = window.innerWidth, h = window.innerHeight;
+        canvas.width = w; canvas.height = h;
+
+        const ripples = [];
+        function resize() {
+            w = window.innerWidth; h = window.innerHeight;
+            canvas.width = w; canvas.height = h;
+        }
+        window.addEventListener('resize', resize);
+
+        function Ripple(x, y) {
+            this.x = x; this.y = y;
+            this.r = 2;
+            this.opacity = 0.6;
+            this.color = `rgba(108, 184, 240, ${this.opacity})`;
+        }
+        Ripple.prototype.update = function() {
+            this.r += 2.5;
+            this.opacity = Math.max(0, this.opacity - 0.01);
+            this.color = `rgba(108, 184, 240, ${this.opacity})`;
+        };
+        Ripple.prototype.draw = function() {
+            ctx.beginPath();
+            ctx.strokeStyle = this.color;
+            ctx.lineWidth = 1.2;
+            ctx.arc(this.x, this.y, this.r, 0, Math.PI*2);
+            ctx.stroke();
+        };
+
+        function addRipple(e) {
+            const rect = canvas.getBoundingClientRect();
+            let x, y;
+            if (e.touches) {
+                x = e.touches[0].clientX - rect.left;
+                y = e.touches[0].clientY - rect.top;
+            } else {
+                x = e.clientX - rect.left;
+                y = e.clientY - rect.top;
+            }
+            if (x >= 0 && y >= 0 && x <= w && y <= h) {
+                ripples.push(new Ripple(x, y));
+                if (ripples.length > 40) ripples.shift();
+            }
+        }
+        document.addEventListener('mousemove', addRipple);
+        document.addEventListener('touchmove', addRipple, { passive: true });
+
+        function animate() {
+            ctx.clearRect(0, 0, w, h);
+            for (let i = ripples.length-1; i >= 0; i--) {
+                const r = ripples[i];
+                r.update();
+                r.draw();
+                if (r.opacity <= 0.01 || r.r > 70) ripples.splice(i, 1);
+            }
+            requestAnimationFrame(animate);
+        }
+        animate();
+    })();
+</script>
+
+</body>
+</html>

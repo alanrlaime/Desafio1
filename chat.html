@@ -1,164 +1,210 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Storyboard · Huayna Kallami · Prompts Gemini</title>
-    <!-- Google Fonts & Font Awesome -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat · Huayna Kallami</title>
+    <meta name="description" content="Historial de conversaciones con IA para el proyecto Granizo, Helada o Lluvia en el Cerro Huayna Kallami" />
+    <meta name="author" content="Alan R · Ciencia de Datos" />
+    <meta name="robots" content="index, follow" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
-            background: #0b141f;
+            background: #0b131f;
             color: #e2e8f0;
-            padding: 1.5rem 1.5rem 3rem;
         }
-        .container {
+        a { color: #6cb8f0; text-decoration: none; }
+        a:hover { color: #94d9ff; text-decoration: underline; }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" opacity="0.03"><path d="M70 10 L80 30 L100 20 L90 40 L110 50 L90 60 L100 80 L80 70 L70 90 L60 70 L40 80 L50 60 L30 50 L50 40 L40 20 L60 30 Z" fill="%2394d9ff"/></svg>');
+            background-size: 120px 120px;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .app {
+            position: relative;
+            z-index: 10;
             max-width: 1300px;
             margin: 0 auto;
+            padding: 1.2rem 2rem 3rem;
         }
-        /* encabezado */
-        .header-block {
-            margin-bottom: 2.5rem;
-            border-bottom: 1px solid #1e3347;
-            padding-bottom: 1.5rem;
-        }
-        .header-block h1 {
-            font-size: 2.8rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            background: linear-gradient(145deg, #b3e4ff, #6cb8f0);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            display: inline-block;
-        }
-        .sub-header {
+        .nav {
             display: flex;
             flex-wrap: wrap;
-            gap: 1.5rem;
-            margin-top: 0.4rem;
-            color: #94a3b8;
+            gap: 0.8rem 2rem;
+            padding: 0.8rem 0 1.2rem;
+            border-bottom: 1px solid #1e3347;
+            margin-bottom: 2rem;
+            align-items: center;
         }
-        .sub-header i {
-            color: #6cb8f0;
-            width: 1.6rem;
-        }
-        .badge-gemini {
-            background: #1a2e44;
-            border-radius: 40px;
-            padding: 0.2rem 1.2rem;
+        .nav a {
             font-weight: 600;
-            font-size: 0.75rem;
+            font-size: 0.95rem;
+            color: #94a3b8;
+            transition: 0.2s;
+            text-decoration: none;
+            padding: 0.3rem 0.2rem;
+            border-bottom: 2px solid transparent;
+        }
+        .nav a:hover {
             color: #b3e4ff;
-            border: 1px solid #2a4a66;
-            display: inline-block;
+            border-bottom-color: #4f8fc0;
+            text-decoration: none;
         }
-        /* grid de prompts */
-        .prompt-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 1.8rem;
-            margin-top: 1.8rem;
+        .nav a.active {
+            color: #b3e4ff;
+            border-bottom-color: #6cb8f0;
         }
-        .prompt-card {
-            background: rgba(16, 30, 48, 0.8);
-            backdrop-filter: blur(4px);
-            border-radius: 28px;
-            padding: 1.6rem 1.6rem 1.8rem;
-            border: 1px solid #1e3347;
-            transition: all 0.2s ease;
-            box-shadow: 0 8px 20px -10px rgba(0,0,0,0.8);
+        .nav .logo {
+            font-weight: 700;
+            color: #b3e4ff;
+            margin-right: auto;
+            font-size: 1.1rem;
+        }
+        .nav .logo i { color: #6cb8f0; margin-right: 6px; }
+        .page-title {
+            font-size: 2.4rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            color: #b3e4ff;
+        }
+        .page-title i { color: #6cb8f0; }
+        .chat-container {
             display: flex;
             flex-direction: column;
+            gap: 1.5rem;
         }
-        .prompt-card:hover {
-            border-color: #4f8fc0;
-            transform: translateY(-4px);
-            background: rgba(20, 38, 60, 0.85);
-        }
-        .prompt-card .block-tag {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.5rem;
-        }
-        .block-tag .time {
-            background: #0b141f;
-            padding: 0.15rem 0.9rem;
-            border-radius: 40px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: #94d9ff;
+        .chat-message {
+            background: rgba(18, 30, 46, 0.75);
+            border-radius: 20px;
+            padding: 1.2rem 1.8rem;
             border: 1px solid #1e3347;
+            transition: 0.2s;
         }
-        .block-tag .role {
-            font-size: 0.7rem;
-            color: #94a3b8;
+        .chat-message:hover {
+            border-color: #4f8fc0;
         }
-        .prompt-card h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #b3e4ff;
-            margin-bottom: 0.5rem;
+        .chat-message .header {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
+            margin-bottom: 0.5rem;
         }
-        .prompt-card h3 i {
+        .chat-message .header .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: #fff;
+        }
+        .chat-message .header .avatar.user {
+            background: #1a2e44;
+        }
+        .chat-message .header .avatar.gemini {
+            background: #1a3a4a;
             color: #6cb8f0;
         }
-        .prompt-text {
-            background: #0b141f;
-            border-radius: 16px;
-            padding: 0.9rem 1rem;
-            font-size: 0.85rem;
-            line-height: 1.6;
-            color: #cbd5e1;
-            border-left: 3px solid #4f8fc0;
-            flex: 1;
-            margin: 0.3rem 0 0.6rem;
+        .chat-message .header .avatar.flow {
+            background: #1a3a2a;
+            color: #6ee7b7;
         }
-        .prompt-text strong {
+        .chat-message .header .avatar.crok {
+            background: #3a1a2a;
+            color: #f9a8d4;
+        }
+        .chat-message .header .avatar.guion {
+            background: #3a2a1a;
+            color: #fbbf24;
+        }
+        .chat-message .header .name {
+            font-weight: 600;
             color: #b3e4ff;
         }
-        .visual-hint {
+        .chat-message .header .time {
+            margin-left: auto;
+            font-size: 0.7rem;
+            color: #64748b;
+        }
+        .chat-message .content {
+            color: #cbd5e1;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+        .chat-message .content .script-block {
+            background: #0b131f;
+            border-radius: 12px;
+            padding: 0.8rem 1rem;
+            margin-top: 0.5rem;
+            border-left: 3px solid #fbbf24;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+        }
+        .chat-message .content .script-block .time-tag {
+            color: #fbbf24;
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+        .chat-message .content .script-block .stage-dir {
+            color: #94a3b8;
+            font-style: italic;
+        }
+        .chat-message .content .script-block .dialog {
+            color: #e2e8f0;
+        }
+        .chat-message .content .script-block .part-title {
+            color: #6cb8f0;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            display: block;
+        }
+        .chat-message .content .prompt-code {
+            background: #0b131f;
+            border-radius: 12px;
+            padding: 0.8rem 1rem;
+            margin-top: 0.5rem;
+            border-left: 3px solid #6cb8f0;
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+        .chat-message .content .prompt-code strong {
+            color: #b3e4ff;
+        }
+        .chat-message .footer-tags {
             display: flex;
             flex-wrap: wrap;
             gap: 0.4rem;
-            margin-top: 0.4rem;
+            margin-top: 0.6rem;
             border-top: 1px solid #16283b;
             padding-top: 0.6rem;
         }
-        .visual-hint span {
-            background: #0b141f;
+        .chat-message .footer-tags span {
+            background: #0b131f;
             padding: 0.1rem 0.8rem;
             border-radius: 40px;
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             color: #94a3b8;
             border: 1px solid #1e3347;
         }
-        .visual-hint i {
+        .chat-message .footer-tags span i {
             color: #6cb8f0;
             margin-right: 4px;
         }
-        .icon-preview {
-            font-size: 2rem;
-            text-align: center;
-            color: #4f8fc0;
-            opacity: 0.6;
-            margin-bottom: 0.2rem;
-        }
-        /* sección extra */
-        .footer-note {
+        footer {
             margin-top: 3.5rem;
             text-align: center;
             color: #64748b;
@@ -166,263 +212,262 @@
             border-top: 1px solid #16283b;
             padding-top: 2rem;
         }
-        .footer-note i {
-            color: #6cb8f0;
-        }
         @media (max-width: 640px) {
-            body { padding: 0.8rem; }
-            .header-block h1 { font-size: 2rem; }
+            .app { padding: 0.8rem; }
+            .page-title { font-size: 1.8rem; }
+            .chat-message { padding: 1rem; }
         }
     </style>
 </head>
 <body>
-<div class="container">
+<div class="app">
 
-    <!-- ENCABEZADO -->
-    <div class="header-block">
-        <h1>🎬 Storyboard · Gemini</h1>
-        <div class="sub-header">
-            <span><i class="fas fa-film"></i> Director de cine · 9 bloques</span>
-            <span><i class="fas fa-mountain"></i> Cerro Huayna Kallami</span>
-            <span><i class="fas fa-robot"></i> IA generativa · prompts cinematográficos</span>
-            <span class="badge-gemini"><i class="fab fa-google"></i> Gemini · 2026</span>
+    <nav class="nav">
+        <span class="logo"><i class="fas fa-water"></i> Huayna Kallami</span>
+        <a href="index.html">Inicio</a>
+        <a href="index.html#prompts">Prompts</a>
+        <a href="index.html#herramientas">Herramientas</a>
+        <a href="index.html#storyboard">Story Board</a>
+        <a href="chat.html" class="active"><i class="fas fa-comment"></i> Chat</a>
+        <a href="gallery.html"><i class="fas fa-images"></i> Gallery</a>
+    </nav>
+
+    <h1 class="page-title"><i class="fas fa-comment"></i> Conversaciones con IA</h1>
+
+    <div class="chat-container">
+
+        <!-- ===== GUION COMPLETO ===== -->
+        <div class="chat-message">
+            <div class="header">
+                <div class="avatar guion"><i class="fas fa-script"></i></div>
+                <span class="name">Guion · El Agua del Huayna Kallami</span>
+                <span class="time">Guion final · 2:00 min</span>
+            </div>
+            <div class="content">
+
+                <div class="script-block">
+                    <span class="part-title"><i class="fas fa-play"></i> Parte A · El Relato Ancestral (1:15 min)</span>
+
+                    <p style="margin-top:0.5rem;"><span class="time-tag">0:00 - 0:12</span> <span class="stage-dir">| 1. Mundo ordinario &amp; 2. Llamado</span></p>
+                    <p class="stage-dir">(Sonido de viento seco y tierra agrietada)</p>
+                    <p class="dialog">"En el altiplano de Pucarani, el valle aguarda la siembra en medio de la sequía. La tierra olvida cómo respirar y el cielo rehúsa abrirse. El peligro del hambre amenaza a la comunidad."</p>
+
+                    <p style="margin-top:0.5rem;"><span class="time-tag">0:12 - 0:22</span> <span class="stage-dir">| 3. Duda &amp; 4. Mentor / Ayuda</span></p>
+                    <p class="stage-dir">(Entra una nota grave de flauta andina)</p>
+                    <p class="dialog">"Sin saber cómo frenar la escasez, la incertidumbre paraliza al pueblo. Sin embargo, los sabios ancestros recuerdan la tradición: el secreto para invocar el clima habita en las alturas de la montaña sagrada."</p>
+
+                    <p style="margin-top:0.5rem;"><span class="time-tag">0:22 - 0:35</span> <span class="stage-dir">| 5. Cruce del umbral &amp; 6. Pruebas</span></p>
+                    <p class="stage-dir">(Ritmo de bombo andino constante)</p>
+                    <p class="dialog">"El yatiri decide actuar y cruza hacia el territorio sagrado del Cerro Huayna Kallami. Al llegar a la laguna mística, enfrenta su primera gran prueba: distinguir entre las corrientes del clima."</p>
+
+                    <p style="margin-top:0.5rem;"><span class="time-tag">0:35 - 0:50</span> <span class="stage-dir">| 7. Gran desafío (La Ordalía)</span></p>
+                    <p class="stage-dir">(Sonido de tempestad, viento y hielo resquebrajándose)</p>
+                    <p class="dialog">"La helada (juyphi uma) intenta congelar su voluntad y el granizo (chhijchi uma) amenaza con destruir la cosecha. En el momento de mayor conflicto, el sabio no vacila y extiende su mano a través de la tormenta."</p>
+
+                    <p style="margin-top:0.5rem;"><span class="time-tag">0:50 - 1:05</span> <span class="stage-dir">| 8. Recompensa &amp; 9. Regreso</span></p>
+                    <p class="stage-dir">(Música cálida de charango y sonido de gotas de agua)</p>
+                    <p class="dialog">"Superada la prueba, captura la sustancia pura de la lluvia (jallu uma). De regreso en el valle, vierte el agua sagrada sobre la tierra marchita para culminar su misión."</p>
+
+                    <p style="margin-top:0.5rem;"><span class="time-tag">1:05 - 1:15</span> <span class="stage-dir">| 10. Transformación Ancestral</span></p>
+                    <p class="stage-dir">(Sonido de lluvia cayendo sobre la tierra)</p>
+                    <p class="dialog">"La humedad despierta los cultivos y los campos florecen en un abrazo verde. El héroe aprende que la naturaleza no responde al azar, sino al conocimiento y al respeto por el origen."</p>
+
+                    <span class="part-title"><i class="fas fa-microchip"></i> Parte B · La Reinterpretación Tecnológica Actual (0:35 min)</span>
+
+                    <p style="margin-top:0.5rem;"><span class="time-tag">1:15 - 1:28</span> <span class="stage-dir">| El Nuevo Mundo Ordinario y el Llamado Actual</span></p>
+                    <p class="stage-dir">(Transición: del charango andino a un pulso sintético/electrónico moderno)</p>
+                    <p class="dialog">"Hoy, el cambio climático y la sequía extrema representan un desafío equivalente para la agricultura. El campesino moderno enfrenta la misma incertidumbre, pero su viaje adopta una nueva herramienta."</p>
+
+                    <p style="margin-top:0.5rem;"><span class="time-tag">1:28 - 1:40</span> <span class="stage-dir">| El Nuevo Umbral y la Herramienta Tecnológica</span></p>
+                    <p class="stage-dir">(Sonido de datos procesándose y tono de escaneo digital)</p>
+                    <p class="dialog">"El héroe actual cruza el umbral mediante la tecnología: sensores IOT en el suelo, satélites de monitoreo térmico y modelos de inteligencia artificial para el análisis de microclimas."</p>
+
+                    <p style="margin-top:0.5rem;"><span class="time-tag">1:40 - 1:50</span> <span class="stage-dir">| La Transformación e Impacto Moderno</span></p>
+                    <p class="stage-dir">(Sonido fluido de sistemas de riego automatizados)</p>
+                    <p class="dialog">"Al igual que el yatiri, el agricultor actual analiza los datos para predecir heladas y optimizar el riego gota a gota. El conocimiento ancestral y la ciencia de datos se unen para proteger la vida."</p>
+
+                    <span class="part-title"><i class="fas fa-flag-checkered"></i> Parte C · Cierre y Créditos (0:10 min)</span>
+
+                    <p style="margin-top:0.5rem;"><span class="time-tag">1:50 - 2:00</span> <span class="stage-dir">| Conclusión y Aprendizaje</span></p>
+                    <p class="stage-dir">(Música serena que fusiona instrumental andino con ambiente electrónico suave)</p>
+                    <p class="dialog">"Antes con el ritual, hoy con la ciencia; la lección del héroe es la misma: solo entendiendo el territorio es posible asegurar el mañana.</p>
+                    <p class="dialog" style="font-weight:600; color:#b3e4ff;">El Agua del Huayna Kallami — Una historia de tradición y tecnología."</p>
+                </div>
+
+            </div>
+            <div class="footer-tags">
+                <span><i class="fas fa-script"></i> Guion completo</span>
+                <span><i class="fas fa-clock"></i> 2:00 min</span>
+                <span><i class="fas fa-robot"></i> Gemini + Flow</span>
+            </div>
         </div>
-        <p style="margin-top: 0.8rem; color: #94a3b8; max-width: 700px;">
-            <i class="fas fa-quote-left" style="color: #6cb8f0; opacity: 0.5;"></i> 
-            Cada bloque describe una escena hiperrealista, con indicaciones de cámara, movimiento, clima y detalles visuales.
-        </p>
+
+        <!-- ===== MENSAJES DE CHAT ===== -->
+        <div class="chat-message">
+            <div class="header">
+                <div class="avatar user"><i class="fas fa-user"></i></div>
+                <span class="name">Usuario</span>
+                <span class="time">10:32 · 01/09/2026</span>
+            </div>
+            <div class="content">
+                Genera un prompt para un video de 20 segundos sobre el yatiri en el altiplano seco, con estilo cinematográfico hiperrealista.
+            </div>
+        </div>
+
+        <div class="chat-message">
+            <div class="header">
+                <div class="avatar gemini"><i class="fas fa-robot"></i></div>
+                <span class="name">Gemini</span>
+                <span class="time">10:33 · 01/09/2026</span>
+            </div>
+            <div class="content">
+                <p><strong>Prompt generado:</strong></p>
+                <div class="prompt-code">
+                    <strong>“Imagina que eres un director de cine y que le das vida a este frame pausado de película hiperrealista. En la escena, la tierra árida y agrietada del altiplano muestra micro-movimientos de polvo levantado por un viento helado. El yatiri, vestido con un poncho de lana real con texturas ultra detalladas y arrugas visibles, gira lentamente la cabeza hacia el horizonte árido...”</strong>
+                </div>
+            </div>
+            <div class="footer-tags">
+                <span><i class="fas fa-tag"></i> Bloque 1</span>
+                <span><i class="fas fa-film"></i> Cinematográfico</span>
+                <span><i class="fas fa-robot"></i> Gemini</span>
+            </div>
+        </div>
+
+        <div class="chat-message">
+            <div class="header">
+                <div class="avatar user"><i class="fas fa-user"></i></div>
+                <span class="name">Usuario</span>
+                <span class="time">10:40 · 01/09/2026</span>
+            </div>
+            <div class="content">
+                Refina el prompt anterior, añadiendo más detalles sobre el poncho y el movimiento del polvo.
+            </div>
+        </div>
+
+        <div class="chat-message">
+            <div class="header">
+                <div class="avatar flow"><i class="fas fa-pen-fancy"></i></div>
+                <span class="name">Flow</span>
+                <span class="time">10:42 · 01/09/2026</span>
+            </div>
+            <div class="content">
+                <p><strong>Prompt refinado:</strong></p>
+                <div class="prompt-code">
+                    <strong>“Imagina que eres un director de cine y que le das vida a este frame pausado de película hiperrealista. En la escena, la tierra árida y agrietada del altiplano muestra micro-movimientos de polvo levantado por un viento helado. El yatiri, vestido con un poncho de lana de alpaca con texturas ultra detalladas, arrugas visibles y bordados tradicionales, gira lentamente la cabeza hacia el horizonte árido. Partículas de tierra flotan en el aire en súper cámara lenta como en una novela gráfica fotorrealista.”</strong>
+                </div>
+            </div>
+            <div class="footer-tags">
+                <span><i class="fas fa-tag"></i> Bloque 1 · refinado</span>
+                <span><i class="fas fa-pen-fancy"></i> Flow</span>
+                <span><i class="fas fa-check-circle" style="color:#6ee7b7;"></i> Mejorado</span>
+            </div>
+        </div>
+
+        <div class="chat-message">
+            <div class="header">
+                <div class="avatar user"><i class="fas fa-user"></i></div>
+                <span class="name">Usuario</span>
+                <span class="time">11:15 · 01/09/2026</span>
+            </div>
+            <div class="content">
+                Genera una imagen para el storyboard: el yatiri arrodillado en la laguna andina.
+            </div>
+        </div>
+
+        <div class="chat-message">
+            <div class="header">
+                <div class="avatar crok"><i class="fas fa-image"></i></div>
+                <span class="name">Crok</span>
+                <span class="time">11:18 · 01/09/2026</span>
+            </div>
+            <div class="content">
+                <p><strong>Imagen generada:</strong> Water_drop_falling_in_vessel_202608272019.jpeg</p>
+                <div class="prompt-code">
+                    <strong>Prompt usado:</strong> “Toma fotorrealista de escala épica. En la orilla de una pequeña laguna andina de aguas oscuras y cristalinas, el yatiri se arrodilla en cámara lenta. La superficie del agua refleja las nubes y crea sutiles ondas reales. Un rayo de luz solar atraviesa la niebla densa e ilumina el agua, con destellos de luz dorada en el rostro del sabio.”
+                </div>
+            </div>
+            <div class="footer-tags">
+                <span><i class="fas fa-tag"></i> Bloque 3</span>
+                <span><i class="fas fa-image"></i> Crok</span>
+                <span><i class="fas fa-check-circle" style="color:#6ee7b7;"></i> Aprobado</span>
+            </div>
+        </div>
+
+        <div class="chat-message">
+            <div class="header">
+                <div class="avatar user"><i class="fas fa-user"></i></div>
+                <span class="name">Usuario</span>
+                <span class="time">11:45 · 01/09/2026</span>
+            </div>
+            <div class="content">
+                ¿Qué herramientas recomiendas para la edición de voz del guion?
+            </div>
+        </div>
+
+        <div class="chat-message">
+            <div class="header">
+                <div class="avatar gemini"><i class="fas fa-robot"></i></div>
+                <span class="name">Gemini</span>
+                <span class="time">11:47 · 01/09/2026</span>
+            </div>
+            <div class="content">
+                <p>Recomiendo <strong>ElevenLabs</strong> para la generación de voces realistas a partir del guion. Ofrece:</p>
+                <ul style="margin-top: 0.4rem; padding-left: 1.2rem; color: #94a3b8;">
+                    <li>✓ Voces con entonación natural</li>
+                    <li>✓ Múltiples idiomas (incluye español)</li>
+                    <li>✓ Control de velocidad y énfasis</li>
+                    <li>✓ Integración con Filmora 11 para la edición final</li>
+                </ul>
+                <div class="prompt-code" style="margin-top: 0.5rem;">
+                    <strong>Prompt para ElevenLabs:</strong> “Genera una narración en español con tono solemne y respetuoso, como un sabio andino contando una historia ancestral.”
+                </div>
+            </div>
+            <div class="footer-tags">
+                <span><i class="fas fa-microphone"></i> ElevenLabs</span>
+                <span><i class="fas fa-robot"></i> Gemini</span>
+                <span><i class="fas fa-film"></i> Filmora 11</span>
+            </div>
+        </div>
+
+        <div class="chat-message">
+            <div class="header">
+                <div class="avatar user"><i class="fas fa-user"></i></div>
+                <span class="name">Usuario</span>
+                <span class="time">12:00 · 01/09/2026</span>
+            </div>
+            <div class="content">
+                Muéstrame un ejemplo de corrección de error en un prompt.
+            </div>
+        </div>
+
+        <div class="chat-message">
+            <div class="header">
+                <div class="avatar flow"><i class="fas fa-pen-fancy"></i></div>
+                <span class="name">Flow</span>
+                <span class="time">12:02 · 01/09/2026</span>
+            </div>
+            <div class="content">
+                <p><strong>Error detectado:</strong> El prompt original mezclaba elementos de granizo y lluvia sin diferenciación clara.</p>
+                <div class="prompt-code" style="border-left-color: #fbbf24;">
+                    <strong>Prompt con error:</strong> “Alrededor de la vasija, el clima cambia violentamente: granizo, nieve y lluvia en un solo frame.”
+                </div>
+                <div class="prompt-code" style="border-left-color: #6ee7b7; margin-top: 0.5rem;">
+                    <strong>Prompt corregido:</strong> “Alrededor de la vasija de cerámica rústica, el clima cambia violentamente de forma realista: a un lado, copos de nieve y escarcha se congelan sobre las rocas; al otro lado, ráfagas de granizo real rebotan contra la piedra; en el centro, una lluvia fina y cristalina cae de manera armónica, con gotas de agua perfectamente enfocadas atravesando la lente de la cámara en macro shot.”
+                </div>
+            </div>
+            <div class="footer-tags">
+                <span><i class="fas fa-tag"></i> Bloque 4</span>
+                <span><i class="fas fa-pen-fancy"></i> Flow</span>
+                <span><i class="fas fa-check-circle" style="color:#6ee7b7;"></i> Corregido</span>
+            </div>
+        </div>
+
     </div>
 
-    <!-- GRILLA DE PROMPTS (9 bloques) -->
-    <div class="prompt-grid">
-
-        <!-- Bloque 1 -->
-        <div class="prompt-card">
-            <div class="block-tag">
-                <span class="time"><i class="far fa-clock"></i> 0:00 – 0:20</span>
-                <span class="role"><i class="fas fa-clapperboard"></i> Frame pausado</span>
-            </div>
-            <h3><i class="fas fa-film"></i> Bloque 1 · Tierra árida</h3>
-            <div class="icon-preview"><i class="fas fa-dust"></i></div>
-            <div class="prompt-text">
-                <strong>Prompt:</strong> “Imagina que eres un director de cine y que le das vida a este frame pausado de película hiperrealista. En la escena, la tierra árida y agrietada del altiplano muestra micro-movimientos de polvo levantado por un viento helado. El yatiri, vestido con un poncho de lana real con texturas ultra detalladas y arrugas visibles, gira lentamente la cabeza hacia el horizonte árido. La iluminación es cenicienta y natural, con partículas de tierra flotando en el aire en súper cámara lenta como en una novela gráfica fotorrealista.”
-            </div>
-            <div class="visual-hint">
-                <span><i class="fas fa-wind"></i> Viento helado</span>
-                <span><i class="fas fa-user"></i> Yatiri · poncho</span>
-                <span><i class="fas fa-camera-slow"></i> Súper cámara lenta</span>
-            </div>
-        </div>
-
-        <!-- Bloque 2 -->
-        <div class="prompt-card">
-            <div class="block-tag">
-                <span class="time"><i class="far fa-clock"></i> 0:20 – 0:40</span>
-                <span class="role"><i class="fas fa-clapperboard"></i> Panel realista</span>
-            </div>
-            <h3><i class="fas fa-person-walking"></i> Bloque 2 · Ascenso a la montaña</h3>
-            <div class="icon-preview"><i class="fas fa-mountain"></i></div>
-            <div class="prompt-text">
-                <strong>Prompt:</strong> “Imagina que eres un director de cine y que animas este panel realista de cómic cinematográfico. Muestra al yatiri caminando a paso firme y realista sobre un terreno rocoso en ascenso hacia la imponente montaña Huayna Kallami. Al fondo, las nubes pesadas y dramáticas se desplazan a gran velocidad sobre los picos nevados. Un tenue velo de niebla matutina se mueve entre sus pies mientras cruza un antiguo altar de piedra donde brasas incandescentes sueltan un humo denso que se disipa con el viento.”
-            </div>
-            <div class="visual-hint">
-                <span><i class="fas fa-cloud"></i> Nubes dramáticas</span>
-                <span><i class="fas fa-fire"></i> Brasas</span>
-                <span><i class="fas fa-smog"></i> Niebla</span>
-            </div>
-        </div>
-
-        <!-- Bloque 3 -->
-        <div class="prompt-card">
-            <div class="block-tag">
-                <span class="time"><i class="far fa-clock"></i> 0:40 – 1:00</span>
-                <span class="role"><i class="fas fa-clapperboard"></i> Toma épica</span>
-            </div>
-            <h3><i class="fas fa-water"></i> Bloque 3 · Laguna andina</h3>
-            <div class="icon-preview"><i class="fas fa-water"></i></div>
-            <div class="prompt-text">
-                <strong>Prompt:</strong> “Imagina que eres un director de cine y que le das movimiento a esta toma fotorrealista de escala épica. En la orilla de una pequeña laguna andina de aguas oscuras y cristalinas, el yatiri se arrodilla en cámara lenta. Anima la superficie del agua para que refleje las nubes y cree sutiles ondas reales. Un rayo de luz solar atraviesa la niebla densa e ilumina el agua, haciendo que destellos de luz dorada se reflejen de manera fotorrealista en el rostro del sabio.”
-            </div>
-            <div class="visual-hint">
-                <span><i class="fas fa-sun"></i> Rayo de luz</span>
-                <span><i class="fas fa-hand-sparkles"></i> Reflejos</span>
-                <span><i class="fas fa-cloud-sun"></i> Niebla</span>
-            </div>
-        </div>
-
-        <!-- Bloque 4 -->
-        <div class="prompt-card">
-            <div class="block-tag">
-                <span class="time"><i class="far fa-clock"></i> 1:00 – 1:20</span>
-                <span class="role"><i class="fas fa-clapperboard"></i> Acción suspendida</span>
-            </div>
-            <h3><i class="fas fa-jar"></i> Bloque 4 · Vasija y clima</h3>
-            <div class="icon-preview"><i class="fas fa-cloud-sun-rain"></i></div>
-            <div class="prompt-text">
-                <strong>Prompt:</strong> “Imagina que eres un director de cine y que animas un frame de película de acción con ritmo suspendido. Alrededor de la vasija de cerámica rústica, el clima cambia violentamente de forma realista: a un lado, copos de nieve y escarcha se congelan rápidamente sobre las rocas; al otro lado, ráfagas de granizo real rebotan con fuerza contra la piedra; en el centro, una lluvia fina y cristalina cae de manera armónica, con gotas de agua perfectamente enfocadas atravesando la lente de la cámara en macro shot.”
-            </div>
-            <div class="visual-hint">
-                <span><i class="fas fa-snowflake"></i> Nieve</span>
-                <span><i class="fas fa-cloud-rain"></i> Granizo</span>
-                <span><i class="fas fa-droplet"></i> Lluvia fina</span>
-            </div>
-        </div>
-
-        <!-- Bloque 5 -->
-        <div class="prompt-card">
-            <div class="block-tag">
-                <span class="time"><i class="far fa-clock"></i> 1:20 – 1:40</span>
-                <span class="role"><i class="fas fa-clapperboard"></i> Cámara lenta extrema</span>
-            </div>
-            <h3><i class="fas fa-hand-holding-water"></i> Bloque 5 · Tormenta y vasija</h3>
-            <div class="icon-preview"><i class="fas fa-wind"></i></div>
-            <div class="prompt-text">
-                <strong>Prompt:</strong> “Imagina que eres un director de cine y que creas un movimiento dramático en cámara lenta extrema (high-speed camera). Una tormenta de viento, niebla oscura y polvo rodea la silueta del sabio en el pico rocoso. Con absoluta templanza, las manos agrietadas y reales del yatiri se mueven despacio a través de la ventisca para sumergir una vasija de arcilla tradicional directamente en la corriente limpia de agua de lluvia, generando una onda fluida y realista de agua hiper-detallada.”
-            </div>
-            <div class="visual-hint">
-                <span><i class="fas fa-tornado"></i> Tormenta</span>
-                <span><i class="fas fa-hand"></i> Manos agrietadas</span>
-                <span><i class="fas fa-water"></i> Onda fluida</span>
-            </div>
-        </div>
-
-        <!-- Bloque 6 -->
-        <div class="prompt-card">
-            <div class="block-tag">
-                <span class="time"><i class="far fa-clock"></i> 1:40 – 2:00</span>
-                <span class="role"><i class="fas fa-clapperboard"></i> Ultra macro</span>
-            </div>
-            <h3><i class="fas fa-droplet"></i> Bloque 6 · Gota y onda</h3>
-            <div class="icon-preview"><i class="fas fa-circle-dot"></i></div>
-            <div class="prompt-text">
-                <strong>Prompt:</strong> “Imagina que eres un director de cine y que animas un plano detalle hiperrealista pausado en el tiempo. La cámara enfoca en ultra Macro la vasija de barro en manos del sabio. Haz que una gota de agua cristalina caiga en cámara súper lenta e impacte la superficie del agua contenida. Anima la onda expansiva del agua con física realista de fluidos, mientras los destellos del sol poniente se reflejan en cada gota suspendida en el aire con acabado cinematográfico de 8K.”
-            </div>
-            <div class="visual-hint">
-                <span><i class="fas fa-circle"></i> Gota</span>
-                <span><i class="fas fa-water"></i> Onda expansiva</span>
-                <span><i class="fas fa-sun"></i> Destellos</span>
-            </div>
-        </div>
-
-        <!-- Bloque 7 -->
-        <div class="prompt-card">
-            <div class="block-tag">
-                <span class="time"><i class="far fa-clock"></i> 2:00 – 2:20</span>
-                <span class="role"><i class="fas fa-clapperboard"></i> Descenso del héroe</span>
-            </div>
-            <h3><i class="fas fa-seedling"></i> Bloque 7 · Descenso y brotes</h3>
-            <div class="icon-preview"><i class="fas fa-leaf"></i></div>
-            <div class="prompt-text">
-                <strong>Prompt:</strong> “Imagina que eres un director de cine y que le das vida a este panel de cómic fotorrealista sobre el descenso del héroe. El yatiri camina hacia abajo por la ladera de la montaña mientras vierte el agua sagrada. Anima las gotas cayendo de la vasija y rebotando de forma fluida sobre la tierra seca. En el punto exacto donde el agua toca el suelo árido, la tierra absorbe la humedad al instante y pequeñas brotes verdes e hierba real comienzan a emerger del suelo en un time-lapse hiperrealista.”
-            </div>
-            <div class="visual-hint">
-                <span><i class="fas fa-person-walking"></i> Descenso</span>
-                <span><i class="fas fa-water"></i> Agua sagrada</span>
-                <span><i class="fas fa-seedling"></i> Brotes</span>
-            </div>
-        </div>
-
-        <!-- Bloque 8 -->
-        <div class="prompt-card">
-            <div class="block-tag">
-                <span class="time"><i class="far fa-clock"></i> 2:20 – 2:40</span>
-                <span class="role"><i class="fas fa-clapperboard"></i> Transformación</span>
-            </div>
-            <h3><i class="fas fa-cloud-rain"></i> Bloque 8 · Lluvia y verdor</h3>
-            <div class="icon-preview"><i class="fas fa-cloud-showers-heavy"></i></div>
-            <div class="prompt-text">
-                <strong>Prompt:</strong> “Imagina que eres un director de cine y que animas esta toma cinematográfica de transformación ambiental. Una lluvia suave, densa y realista empieza a caer sobre todo el altiplano. Mediante un efecto time-lapse fotorrealista, muestra los campos secos transformándose en surcos de cultivo verdes y exuberantes. La humedad crea vaho sobre el ambiente y el agua corriendo por pequeños riachuelos entre la tierra con físicas de iluminación global perfectas.”
-            </div>
-            <div class="visual-hint">
-                <span><i class="fas fa-cloud-rain"></i> Lluvia densa</span>
-                <span><i class="fas fa-crop"></i> Cultivos</span>
-                <span><i class="fas fa-smog"></i> Vaho</span>
-            </div>
-        </div>
-
-        <!-- Bloque 9 -->
-        <div class="prompt-card">
-            <div class="block-tag">
-                <span class="time"><i class="far fa-clock"></i> 2:40 – 3:00</span>
-                <span class="role"><i class="fas fa-clapperboard"></i> Drone shot</span>
-            </div>
-            <h3><i class="fas fa-drone"></i> Bloque 9 · Aéreo final</h3>
-            <div class="icon-preview"><i class="fas fa-mountain-sun"></i></div>
-            <div class="prompt-text">
-                <strong>Prompt:</strong> “Imagina que eres un director de cine y que realizas una toma aérea con dron (drone shot) de escala Hollywoodense. La cámara realiza un suave ascenso (zoom out) alejándose del valle verde resplandeciente bajo la lluvia. A medida que la cámara sube entre las nubes, la geografía realista de las montañas, los ríos y los campos revela la silueta imponente y natural del Cerro Huayna Kallami recortada contra el cielo al atardecer, disolviéndose suavemente a negro cinematográfico.”
-            </div>
-            <div class="visual-hint">
-                <span><i class="fas fa-drone"></i> Drone</span>
-                <span><i class="fas fa-mountain"></i> Cerro</span>
-                <span><i class="fas fa-sun"></i> Atardecer</span>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- PIE DE PÁGINA / CRÉDITOS -->
-    <div class="footer-note">
-        <i class="fas fa-film"></i> 9 bloques · prompts generados con Gemini · adaptación del relato “Granizo, Helada o Lluvia” 
-        <br><span style="font-size: 0.8rem; color: #475569;"><i class="far fa-copyright"></i> 2026 · Proyecto Ciencia de Datos</span>
-    </div>
+    <footer>
+        <i class="fas fa-water" style="color: #6cb8f0;"></i> Chhijchi, Jallu, Juyphi · 2026 · <i class="fas fa-database" style="color: #6cb8f0;"></i> Ciencia de Datos
+    </footer>
 
 </div>
-
-<!-- Pequeño efecto de ondas sutiles (opcional) -->
-<script>
-    (function() {
-        const canvas = document.createElement('canvas');
-        canvas.style.position = 'fixed';
-        canvas.style.top = '0';
-        canvas.style.left = '0';
-        canvas.style.width = '100%';
-        canvas.style.height = '100%';
-        canvas.style.pointerEvents = 'none';
-        canvas.style.zIndex = '0';
-        canvas.style.opacity = '0.08';
-        document.body.prepend(canvas);
-
-        const ctx = canvas.getContext('2d');
-        let w = window.innerWidth, h = window.innerHeight;
-        canvas.width = w; canvas.height = h;
-
-        const dots = [];
-        for (let i = 0; i < 30; i++) {
-            dots.push({
-                x: Math.random() * w,
-                y: Math.random() * h,
-                r: Math.random() * 20 + 5,
-                dx: (Math.random() - 0.5) * 0.3,
-                dy: (Math.random() - 0.5) * 0.3,
-                opacity: Math.random() * 0.3 + 0.1
-            });
-        }
-
-        function resize() {
-            w = window.innerWidth; h = window.innerHeight;
-            canvas.width = w; canvas.height = h;
-        }
-        window.addEventListener('resize', resize);
-
-        function animate() {
-            ctx.clearRect(0, 0, w, h);
-            ctx.strokeStyle = '#4f8fc0';
-            ctx.lineWidth = 0.8;
-            for (let d of dots) {
-                d.x += d.dx;
-                d.y += d.dy;
-                if (d.x < 0 || d.x > w) d.dx *= -1;
-                if (d.y < 0 || d.y > h) d.dy *= -1;
-                ctx.beginPath();
-                ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
-                ctx.strokeStyle = `rgba(79, 143, 192, ${d.opacity})`;
-                ctx.stroke();
-            }
-            requestAnimationFrame(animate);
-        }
-        animate();
-    })();
-</script>
-
 </body>
 </html>

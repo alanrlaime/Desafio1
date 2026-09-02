@@ -194,30 +194,64 @@
             background: #1a2e2b;
             color: #6ee7b7;
         }
-        .storyboard-carousel {
-            display: flex;
+
+        /* Storyboard con imágenes */
+        .storyboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
             gap: 1.2rem;
-            overflow-x: auto;
-            padding: 0.8rem 0.2rem 1.5rem;
-            scroll-behavior: smooth;
-            scrollbar-width: thin;
-            scrollbar-color: #4f8fc0 #16283b;
+            margin: 1.2rem 0;
         }
-        .storyboard-carousel::-webkit-scrollbar { height: 5px; }
-        .storyboard-carousel::-webkit-scrollbar-track { background: #16283b; border-radius: 12px; }
-        .storyboard-carousel::-webkit-scrollbar-thumb { background: #4f8fc0; border-radius: 12px; }
-        .story-item {
-            min-width: 140px;
+        .story-item-img {
             background: #0f1a2b;
             border-radius: 20px;
-            padding: 0.8rem 0.5rem;
-            text-align: center;
+            overflow: hidden;
             border: 1px solid #1e3347;
-            flex: 0 0 auto;
+            transition: 0.2s ease;
+            text-align: center;
         }
-        .story-item i { font-size: 2.2rem; color: #6cb8f0; margin-bottom: 0.2rem; }
-        .story-item p { font-size: 0.7rem; color: #94a3b8; }
-        /* Herramientas IA - cards especiales */
+        .story-item-img:hover {
+            transform: scale(1.02);
+            border-color: #4f8fc0;
+        }
+        .story-item-img img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            display: block;
+            border-bottom: 1px solid #1e3347;
+        }
+        .story-item-img .caption {
+            padding: 0.4rem 0.2rem;
+            font-size: 0.7rem;
+            color: #94a3b8;
+        }
+        .story-item-img .caption i {
+            color: #6cb8f0;
+            margin-right: 4px;
+        }
+
+        .story-item-video {
+            background: #0f1a2b;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid #1e3347;
+            grid-column: span 2;
+        }
+        .story-item-video video {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+        .story-item-video .caption {
+            padding: 0.4rem 0.2rem;
+            font-size: 0.7rem;
+            color: #94a3b8;
+            text-align: center;
+        }
+
+        /* Herramientas IA */
         .tool-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -257,6 +291,7 @@
         @media (max-width: 640px) {
             .app { padding: 0.8rem; }
             h1 { font-size: 2.2rem; }
+            .story-item-video { grid-column: span 1; }
         }
     </style>
 </head>
@@ -265,26 +300,16 @@
 
     <!-- HEADER: VIDEO YOUTUBE -->
     <div class="hero-video">
-        <iframe width="560" 
-  height="315" 
-  src="https://www.youtube.com/embed/EDdwaXdvmBI" 
-  title="Reproductor de video de YouTube" 
-  frameborder="0" 
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-  referrerpolicy="strict-origin-when-cross-origin" 
-  allowfullscreen>></iframe>
-        
+        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=0&rel=0" allowfullscreen></iframe>
     </div>
 
     <!-- TITULO Y METADATOS -->
-    <h1>EL AGUA DEL <br>HUAYNA KALLAMI</h1>
-    
+    <h1>GRANIZO, HELADA O LLUVIA <br>EN EL CERRO HUAYNA KALLAMI</h1>
     <div class="meta-badge">
-        <span><i class="fas fa-user-circle"></i> Laime Laura Alan Rodrigo</span>
-        <span><i class="fas fa-youtube"></i> <a src="https://youtu.be/EDdwaXdvmBI">https://youtu.be/EDdwaXdvmBI</a></span>
-        <span><i class="fas fa-book-open"></i> Taller de Proyecto</span>
-        <span><i class="fas fa-mountain"></i> Desafio 1</span>
-        <span><i class="fas fa-graduation-cap"></i> Mención IA y Ciencia de Datos</span>
+        <span><i class="fas fa-user-circle"></i> Emilio Kapkique · 46 años</span>
+        <span><i class="fas fa-book-open"></i> RTOPUC, Archivo Oral (2010)</span>
+        <span><i class="fas fa-mountain"></i> Cerro Huayna Kallami</span>
+        <span><i class="fas fa-graduation-cap"></i> Mención Ciencia de Datos</span>
     </div>
     <div class="subhead">
         <i class="fas fa-quote-left" style="color: #6cb8f0; opacity: 0.6;"></i> 
@@ -329,18 +354,63 @@
         <p style="margin-top: 0.6rem; color: #94a3b8; font-size: 0.85rem;"><i class="fas fa-water"></i> El yatiri desciende con el agua de lluvia, restaurando el equilibrio.</p>
     </div>
 
-    <!-- STORYBOARD (carrusel) -->
+    <!-- STORYBOARD CON IMÁGENES -->
     <div style="margin: 1.8rem 0;">
-        <h2 style="display: flex; align-items: center; gap: 12px; font-weight: 600; font-size: 1.6rem;"><i class="fas fa-film" style="color: #6cb8f0;"></i> Storyboard · visual narrativa</h2>
-        <div class="storyboard-carousel">
-            <div class="story-item"><i class="fas fa-mountain"></i><p>1. Cerro Huayna Kallami</p></div>
-            <div class="story-item"><i class="fas fa-hand-sparkles"></i><p>2. Yatiri en altar</p></div>
-            <div class="story-item"><i class="fas fa-water"></i><p>3. Laguna cristalina</p></div>
-            <div class="story-item"><i class="fas fa-cloud-sun-rain"></i><p>4. 3 aguas (granizo, lluvia, helada)</p></div>
-            <div class="story-item"><i class="fas fa-jar"></i><p>5. Vasija de arcilla</p></div>
-            <div class="story-item"><i class="fas fa-seedling"></i><p>6. Riego y brotes</p></div>
-            <div class="story-item"><i class="fas fa-cloud-rain"></i><p>7. Lluvia sobre el valle</p></div>
-            <div class="story-item"><i class="fas fa-earth-americas"></i><p>8. Transformación</p></div>
+        <h2 style="display: flex; align-items: center; gap: 12px; font-weight: 600; font-size: 1.6rem;"><i class="fas fa-images" style="color: #6cb8f0;"></i> Storyboard · visual narrativa</h2>
+        <div class="storyboard-grid">
+            <!-- Imagen 1: Painting_dry_Andean_plateau_sage -->
+            <div class="story-item-img">
+                <img src="Painting_dry_Andean_plateau_sage_202608271903.jpeg" alt="Yatiri en el altiplano seco">
+                <div class="caption"><i class="fas fa-mountain"></i> Yatiri en el altiplano</div>
+            </div>
+            <!-- Imagen 2: Water_drop_falling_in_vessel -->
+            <div class="story-item-img">
+                <img src="Water_drop_falling_in_vessel_202608272019.jpeg" alt="Gota de agua cayendo en vasija">
+                <div class="caption"><i class="fas fa-droplet"></i> Gota en la vasija</div>
+            </div>
+            <!-- Imagen 3: Sage_pouring_water_on_earth -->
+            <div class="story-item-img">
+                <img src="Sage_pouring_water_on_earth_202608272019.jpeg" alt="Yatiri vertiendo agua en la tierra">
+                <div class="caption"><i class="fas fa-hand-holding-water"></i> Vertiendo agua sagrada</div>
+            </div>
+            <!-- Imagen 4: descarga.png -->
+            <div class="story-item-img">
+                <img src="descarga.png" alt="Cerro Huayna Kallami">
+                <div class="caption"><i class="fas fa-mountain"></i> Cerro Huayna Kallami</div>
+            </div>
+            <!-- Imagen 5: MeFh7.jpg -->
+            <div class="story-item-img">
+                <img src="MeFh7.jpg" alt="Aguas y paisaje">
+                <div class="caption"><i class="fas fa-water"></i> Paisaje andino</div>
+            </div>
+            <!-- Imagen 6: sR433.jpg -->
+            <div class="story-item-img">
+                <img src="sR433.jpg" alt="Yatiri y el cerro">
+                <div class="caption"><i class="fas fa-user"></i> Yatiri en la montaña</div>
+            </div>
+            <!-- Imagen 7: UXtsT.jpg -->
+            <div class="story-item-img">
+                <img src="UXtsT.jpg" alt="Ritual y ofrendas">
+                <div class="caption"><i class="fas fa-fire"></i> Ritual en el altar</div>
+            </div>
+            <!-- Imagen 8: ZSTCk.jpg -->
+            <div class="story-item-img">
+                <img src="ZSTCk.jpg" alt="Vasija de cerámica">
+                <div class="caption"><i class="fas fa-jar"></i> Vasija de arcilla</div>
+            </div>
+            <!-- Imagen 9: image.jpg -->
+            <div class="story-item-img">
+                <img src="image.jpg" alt="Lluvia sobre el valle">
+                <div class="caption"><i class="fas fa-cloud-rain"></i> Lluvia en el valle</div>
+            </div>
+            <!-- Video: 162e4c3c-6bc0-4c64-a7a4-455cc1a2984f.mp4 -->
+            <div class="story-item-video">
+                <video controls muted>
+                    <source src="162e4c3c-6bc0-4c64-a7a4-455cc1a2984f.mp4" type="video/mp4">
+                    Tu navegador no soporta video.
+                </video>
+                <div class="caption"><i class="fas fa-video"></i> Secuencia animada · transformación del paisaje</div>
+            </div>
         </div>
     </div>
 
@@ -350,7 +420,7 @@
             <div class="card" style="height: 100%;">
                 <h3><i class="fas fa-play-circle"></i> Video final · adaptación</h3>
                 <div style="position: relative; padding-bottom: 56.25%; height: 0; border-radius: 16px; overflow: hidden; margin-top: 0.4rem;">
-                    <iframe src="https://www.youtube.com/embed?v=EDdwaXdvmBI" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allowfullscreen></iframe>
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allowfullscreen></iframe>
                 </div>
                 <p style="margin-top: 0.4rem; font-size: 0.8rem; color: #94a3b8;">Visualización del ciclo del agua y el rol del yatiri.</p>
             </div>
@@ -471,7 +541,16 @@
         </div>
     </div>
 
-    <
+    <!-- SECCIÓN ESPECÍFICA DE LA MENCIÓN -->
+    <div class="card" style="border-left: 6px solid #6cb8f0; margin-bottom: 1.8rem;">
+        <h3><i class="fas fa-microchip"></i> Mención Ciencia de Datos · análisis</h3>
+        <p>Se aplicó <strong>NLP</strong> para extraer entidades (tipos de agua, cerro, yatiri) y <strong>clustering</strong> sobre narrativas similares. Se correlacionaron las menciones de “chhijchi uma”, “jallu uma” y “juyphi uma” con datos de <strong>precipitación y temperatura</strong> de la zona (SENAMHI). El modelo identifica patrones de conocimiento empírico que coinciden con fenómenos meteorológicos.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 0.6rem;">
+            <span class="pill"><i class="fab fa-python"></i> Pandas · sklearn</span>
+            <span class="pill"><i class="fas fa-chart-simple"></i> Visualización</span>
+            <span class="pill"><i class="fas fa-cloud"></i> Datos abiertos</span>
+        </div>
+    </div>
 
     <!-- CONCLUSIONES Y CRÉDITOS -->
     <div class="grid-2">
@@ -485,14 +564,14 @@
         </div>
         <div class="card">
             <h3><i class="fas fa-heart"></i> Créditos</h3>
-            <p><i class="fas fa-user-pen"></i> Estudiante: Alan R · Ciencia de Datos</p>
+            <p><i class="fas fa-user-pen"></i> Estudiante: Sofía Valenzuela · Ciencia de Datos</p>
             <p><i class="fas fa-people-group"></i> Relato: Emilio Kapkique (archivo oral)</p>
-            <p style="margin-top: 0.6rem; font-size: 0.8rem; color: #64748b;">
+            <p style="margin-top: 0.6rem; font-size: 0.8rem; color: #64748b;"><i class="fas fa-link"></i> Enlace público: <span style="color: #94d9ff;">https://huayna-kallami.netlify.app</span></p>
         </div>
     </div>
 
     <footer>
-        <i class="fas fa-water" style="color: #6cb8f0;"></i> Agosto · 2026 · <i class="fas fa-database" style="color: #6cb8f0;"></i> Ciencia de Datos
+        <i class="fas fa-water" style="color: #6cb8f0;"></i> Chhijchi, Jallu, Juyphi · 2026 · <i class="fas fa-database" style="color: #6cb8f0;"></i> Ciencia de Datos
     </footer>
 
 </div>
@@ -508,7 +587,7 @@
         canvas.style.height = '100%';
         canvas.style.pointerEvents = 'none';
         canvas.style.zIndex = '1';
-        canvas.style.opacity = '0.15';
+        canvas.style.opacity = '0.12';
         document.body.prepend(canvas);
 
         const ctx = canvas.getContext('2d');
@@ -525,12 +604,12 @@
         function Ripple(x, y) {
             this.x = x; this.y = y;
             this.r = 2;
-            this.opacity = 0.6;
+            this.opacity = 0.5;
             this.color = `rgba(108, 184, 240, ${this.opacity})`;
         }
         Ripple.prototype.update = function() {
-            this.r += 2.5;
-            this.opacity = Math.max(0, this.opacity - 0.01);
+            this.r += 2.2;
+            this.opacity = Math.max(0, this.opacity - 0.009);
             this.color = `rgba(108, 184, 240, ${this.opacity})`;
         };
         Ripple.prototype.draw = function() {
@@ -565,7 +644,7 @@
                 const r = ripples[i];
                 r.update();
                 r.draw();
-                if (r.opacity <= 0.01 || r.r > 70) ripples.splice(i, 1);
+                if (r.opacity <= 0.01 || r.r > 65) ripples.splice(i, 1);
             }
             requestAnimationFrame(animate);
         }
